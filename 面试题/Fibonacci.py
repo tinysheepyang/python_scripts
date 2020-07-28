@@ -156,6 +156,7 @@ def fib4(n):
 
     def f(m):
         if m not in dict1:
+            print('dict-----------------------', dict1)
             dict1[m] = f(m - 2) + f(m - 1)
         return dict1[m]
 
@@ -188,10 +189,36 @@ def fib5(n):
 
 print('闭包2---', timeit.timeit(lambda: fib5(10), number=1))
 
+
+class MyCache(object):
+    """
+    类装饰器
+    """
+    def __init__(self, func):
+        self.func = func
+        self.cache = {}
+
+    def __call__(self, *args, **kwargs):
+        if not args in self.cache:
+            self.cache[args] = self.func(*args)
+        return self.cache[args]
+
+@MyCache
+def fib6(n):
+    assert isinstance(n, int)
+    if n < 2:
+        return n
+
+    return fib6(n - 1) + fib(n - 2)
+
+print('fib6-------',fib6(33))
+
 """
 总结：
 1.使用缓存lru_cache,速度最快
 2.递归效率最低、递增速度最慢
 3.闭包速度不稳定
 4.生成器最节省空间
+5.使用dict避免重复计算
 """
+

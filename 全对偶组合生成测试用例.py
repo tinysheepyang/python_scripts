@@ -25,6 +25,7 @@ test = """{
 # 1对偶算法覆盖
 # 2全覆盖（笛卡尔积算法）
 
+
 def get_data_list(_type, request_type=0):
     """
     0表示对偶算法；1表示全匹配组合
@@ -33,7 +34,8 @@ def get_data_list(_type, request_type=0):
     if _type == 'string':
         return ["", None, "abc123"]
     elif _type == 'time':
-        return ["1900-01-01", time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())]
+        return ["1900-01-01",
+                time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())]
     elif _type == 'int':
         return [-1, 0, 1]
     elif _type == 'decimal':
@@ -69,7 +71,7 @@ def all_assemble(dic):
     for k, v in dic.items():
         k_list = []
         for _value in get_data_list(v, 1):
-            di = {}
+            di = dict()
             di[k] = _value
             k_list.append(di)
         return_list.append(k_list)
@@ -99,7 +101,10 @@ def dual_test_case(_base):
     for k, v in _base.items():
         key_list.append(k)
         value_list.append(get_data_list(v))
-    # print(key_list, value_list)
+
+    print(key_list)
+    print('value_list---', value_list)
+
     if value_list.__len__() >= 2:
         res = AllPairs(value_list)
         for i, b in enumerate(res):
@@ -115,12 +120,13 @@ def dual_test_case(_base):
             case_list.append(dic)
     return case_list
 
+
 # 测试一下
 case_list1 = dual_test_case(json.loads(test))
 print(case_list1.__len__())
 for case in case_list1:
     print(str(json.dumps(case)))
-case_list2 = itertools_case_list(json.loads(test))
-print(case_list2.__len__())
-for case in case_list2:
-    print(str(json.dumps(case)))
+# case_list2 = itertools_case_list(json.loads(test))
+# print(case_list2.__len__())
+# for case in case_list2:
+#     print(str(json.dumps(case)))
